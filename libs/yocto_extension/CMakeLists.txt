@@ -18,14 +18,8 @@ if(WIN32)
 endif(WIN32)
 
 if(APPLE)
-    add_custom_command(TARGET yocto_extension POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different 
-    ${CMAKE_SOURCE_DIR}/libs/yocto_extension/ext/denoise/bin/OpenImageDenoise.dll  $<TARGET_FILE_DIR:yocto_extension>)
-    
-    add_custom_command(TARGET yocto_extension POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different 
-    ${CMAKE_SOURCE_DIR}/libs/yocto_extension/ext/denoise/bin/tbb.dll  $<TARGET_FILE_DIR:yocto_extension>)
-    
-    add_custom_command(TARGET yocto_extension POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different 
-    ${CMAKE_SOURCE_DIR}/libs/yocto_extension/ext/denoise/bin/tbbmalloc.dll  $<TARGET_FILE_DIR:yocto_extension>)
+    add_library(OpenImageDenoise SHARED IMPORTED)
+    set_property(TARGET OpenImageDenoise PROPERTY IMPORTED_LOCATION ${EXT_PATH}/apple/lib/libOpenImageDenoise.1.2.0.dylib)
 endif(APPLE)
 
 if(UNIX AND NOT APPLE)
