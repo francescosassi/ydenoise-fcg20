@@ -29,16 +29,8 @@ if(APPLE)
 endif(APPLE)
 
 if(UNIX AND NOT APPLE)
-    set(CMAKE_PREFIX_PATH ext/denoise/linux/lib/cmake/OpenImageDenoise)
-
-    add_custom_command(TARGET yocto_extension POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different 
-    ${EXT_PATH}/bin/libOpenImageDenoise.so.1.2.0  $<TARGET_FILE_DIR:yocto_extension>)
-    
-    add_custom_command(TARGET yocto_extension POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different 
-    ${EXT_PATH}/bin/libtbb.so.2  $<TARGET_FILE_DIR:yocto_extension>)
-    
-    add_custom_command(TARGET yocto_extension POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different 
-    ${EXT_PATH}/bin/libtbbmalloc.so.2  $<TARGET_FILE_DIR:yocto_extension>)
+    add_library(OpenImageDenoise SHARED IMPORTED)
+    set_property(TARGET OpenImageDenoise PROPERTY IMPORTED_LOCATION ${EXT_PATH}/linux/lib/libOpenImageDenoise.so.1.2.0)
 endif(UNIX AND NOT APPLE)
 
 set_target_properties(yocto_extension PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED YES)
