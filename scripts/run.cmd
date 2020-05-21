@@ -1,1 +1,1 @@
-bin\yimagedenoise.exe out\lowres\balls.jpg -o out\lowres\balls_out.jpg -t nlmean
+bin\Release\yimagedenoise.exe out\lowres\balls.jpg -o out\lowres\balls_out.jpg -t nlmean

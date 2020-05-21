@@ -35,13 +35,14 @@
 // INCLUDES
 // -----------------------------------------------------------------------------
 
+#include <atomic>
+#include <future>
+#include <memory>
 #include <yocto/yocto_image.h>
 #include <yocto/yocto_math.h>
 #include "ext/denoise/include/oidn.hpp"
 
-#include <atomic>
-#include <future>
-#include <memory>
+
 
 // -----------------------------------------------------------------------------
 // HIGH LEVEL API
@@ -53,7 +54,7 @@ namespace yocto::extension {
     
     void denoise(float* colorPtr, float* outputPtr, int width, int heigh);
 
-    img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img);
+    img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img, int r, int f, int sigma, int h);
 
 }
 

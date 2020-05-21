@@ -5,13 +5,14 @@ namespace cli = yocto::commonio;
 namespace dns = yocto::extension;
 
 #include "ext/utils/image_io.h"
-using namespace std::string_literals;
 
 #include <yocto/yocto_image.h>
+namespace img = yocto::image;
+
 #include <yocto/yocto_math.h>
 using namespace yocto::math;
-namespace cli = yocto::commonio;
-namespace img = yocto::image;
+
+
 using namespace std::string_literals;
 
 int main(int argc, const char* argv[]) {
@@ -40,12 +41,14 @@ int main(int argc, const char* argv[]) {
     if (!load_image(in_file, img, ioerror)) cli::print_fatal(ioerror);
 
     // corrections
-    img = dns::denoise_nlmean(img);
+    
+    img = dns::denoise_nlmean(img, 12, 5, 0.1, 1);
 
     // save
     if (!save_image(out_file, float_to_byte(img), ioerror))
       cli::print_fatal(ioerror);
-  } else {
+  } 
+  else {
 
     auto buffer = oidn::loadImage(in_file);
     printf("ciao\n");
@@ -58,9 +61,7 @@ int main(int argc, const char* argv[]) {
     //output.getData();
     dns::denoise(buffer.getData(), output.getData(), width, height);
     oidn::saveImage(out_file, output);
-
   }
-
 
   return 0;
 }

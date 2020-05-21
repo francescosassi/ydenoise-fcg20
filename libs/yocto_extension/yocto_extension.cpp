@@ -34,25 +34,86 @@
 #include <memory>
 #include <mutex>
 using namespace std::string_literals;
+namespace img = yocto::image;
 
 // -----------------------------------------------------------------------------
 // IMPLEMENTATION FOR EXTENSION
 // -----------------------------------------------------------------------------
 namespace yocto::extension {
 
-    img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img){
+    template <typename Func>
+    inline void parallel_for(const vec2i& size, Func&& func) {
+    auto             futures  = std::vector<std::future<void>>{};
+    auto             nthreads = std::thread::hardware_concurrency();
+    std::atomic<int> next_idx(0);
+    for (auto thread_id = 0; thread_id < nthreads; thread_id++) {
+        futures.emplace_back(
+            std::async(std::launch::async, [&func, &next_idx, size]() {
+            while (true) {
+                auto j = next_idx.fetch_add(1);
+                if (j >= size.y) break;
+                for (auto i = 0; i < size.x; i++) func({i, j});
+            }
+            }));
+    }
+    for (auto& f : futures) f.get();
+    }
+
+    img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img, int r, int f, int sigma, int h){
         auto out = img;
-        auto width = out.size().x;
-        auto height = out.size().y;
-        printf("width = %d", width);
-        printf("height = %d", height);
-        for (auto i=0 ; i < width * height; i++){
-            out[i] = math::pow(out[i], (1/2.2));
-        }
+        parallel_for(img.size(), [&out, r, f, sigma, h](const vec2i& ij) {
+            
+            auto width = out.size().x;
+            auto height = out.size().y;
+            auto i = ij.x;
+            auto j = ij.y;
+            auto p = out[{i, j}];
+            //printf("%d\n", i);
+            //printf("%d\n", j);
+
+            auto c = 0.0f;
+            auto acc = vec4f{0,0,0,0};
+            //iterate in the neigh of size (2* r x 2 * r)
+            
+            for(int rx = -r; rx < r; rx++){
+                for(int ry = -r; ry < r; ry++){
+                    auto qx = i + rx;
+                    auto qy = j + ry;
+                    if (!out.contains({qx, qy})) continue;
+                    auto q = out[{i + rx, j + ry}];
+
+                    auto tot = vec4f{0,0,0,0};
+                    // iterate in the neigh of size (2* f x 2 * f)
+                    // centered in p and q
+                    for(int fx = -f; fx < f; fx++){
+                        for(int fy = -f; fy < f; fy++){
+                            if (!out.contains({qx + fx,  qy + fy})) continue;
+                            if (!out.contains({i + fx,  j + fy})) continue;
+                            auto qf = out[{qx + fx, qy + fy}];
+                            auto pf = out[{i + fx, j + fy}];
+                            tot += math::pow(pf - qf, 2);
+                            //
+                        }
+                    }
+                    auto d_tot = tot.x + tot.y + tot.z;
+                    //printf("%f", d_tot);
+                    d_tot /= (1.0f / (3.0f * pow2(2.0f * f + 1.0f)));
+                    //printf("%f", d_tot);
+                    auto w = exp(-max(d_tot - 2 * pow2(sigma), 0.0f) / h * h);
+                    //printf("%f", w);
+                    c += w;
+                    acc += out[{qx, qy}] * w;
+                }
+
+            }
+            acc/=c;
+            //printf("%f", c);
+            out[{i, j}] = acc;
+
+            out[{i, j}] = math::pow(out[{i, j}], (1/2.2f));
+          });
         
         return out;
-
-        return img;
     }
 
     void denoise(float* colorPtr, float* outputPtr, int width, int height){
