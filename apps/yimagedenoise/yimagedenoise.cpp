@@ -42,7 +42,27 @@ int main(int argc, const char* argv[]) {
 
     // corrections
     
-    img = dns::denoise_nlmean(img, 21, 3, 15, 0.4 * 15);
+    float sigma = 15;
+    int r;
+    int f;
+    float h ;
+    if (sigma > 0.0f && sigma <= 25.0f) {
+        r = 5;
+        f = 17;
+        h = 0.55f;
+
+    } else if (sigma > 25.0f && sigma <= 55.0f) {
+        r = 2;
+        f = 17;
+        h = 0.4f;
+
+    } else if (sigma <= 100.0f) {
+        r = 3;
+        f = 17;
+        h = 0.35f;
+
+    }
+    img = dns::denoise_nlmean(img, r, f, sigma, h*sigma);
 
     // save
     if (!save_image(out_file, float_to_byte(img), ioerror))
