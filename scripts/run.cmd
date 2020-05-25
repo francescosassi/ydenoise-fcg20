@@ -11,4 +11,4 @@
 :: bin\yscenetrace.exe tests\11_bathroom1\bathroom1.json -o out\lowres\11_bathroom1_720_256.jpg -s 256 -b 8 -r 720
 :: bin\yscenetrace.exe tests\12_ecosys\ecosys.json -o out\lowres\12_ecosys_720_256.jpg -s 64 -r 720
 
-bin\Release\yimagedenoise.exe out\lowres\01_cornellbox_512_256.png -o out\lowres\01_cornellbox_512_256_clean.png -t nlmean
+bin\RelWithDebInfo\yimagedenoise.exe out\lowres\01_cornellbox_512_256.png -o out\lowres\01_cornellbox_512_256_clean.png -t nlmean

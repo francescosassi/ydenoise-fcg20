@@ -60,58 +60,59 @@ namespace yocto::extension {
     }
 
     img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img, int r, int f, float sigma, float h){
-        auto out = img::image<vec4f>{};
+        auto out = img::image<vec4f>(img.size());
         //parallel_for(img.size(), [&out, r, f, sigma, h](const vec2i& ij) {
-        auto width = out.size().x;
-        auto height = out.size().y;
-        for(int i = 0; i < width; i++){
-            for(int j = 0; j < height; j++){
+        auto width = img.size().x;
+        auto height = img.size().y;
+        for(int j = 0; j < height; j++){
+            for(int i = 0; i < width; i++){
+                
 
-            auto p = out[{i, j}];
-            //printf("%d\n", i);
-            //printf("%d\n", j);
+                auto p = out[{i, j}];
+                //printf("%d\n", i);
+                //printf("%d\n", j);
 
-            auto c = 0.0f;
-            auto acc = vec4f{0, 0, 0, 0};
-            //iterate in the neigh of size (2* r x 2 * r)
-            
-            for(int rx = -r; rx < r; rx++){
-                for(int ry = -r; ry < r; ry++){
-                    auto qx = i + rx;
-                    auto qy = j + ry;
-                    if (!out.contains({qx, qy})) continue;
-                    auto q = out[{i + rx, j + ry}];
+                auto c = 0.0f;
+                auto acc = vec4f{0, 0, 0, 0};
+                //iterate in the neigh of size (2* r x 2 * r)
+                
+                for(int rx = -r; rx < r; rx++){
+                    for(int ry = -r; ry < r; ry++){
+                        auto qx = i + rx;
+                        auto qy = j + ry;
+                        if (!out.contains({qx, qy})) continue;
+                        auto q = out[{i + rx, j + ry}];
 
-                    auto tot = vec4f{0,0,0,0};
-                    // iterate in the neigh of size (2* f x 2 * f)
-                    // centered in p and q
-                    for(int fx = -f; fx < f; fx++){
-                        for(int fy = -f; fy < f; fy++){
-                            if (!out.contains({qx + fx,  qy + fy})) continue;
-                            if (!out.contains({i + fx,  j + fy})) continue;
-                            auto qf = out[{qx + fx, qy + fy}];
-                            auto pf = out[{i + fx, j + fy}];
-                            tot += pow(pf - qf, 2);
-                            //
+                        auto tot = vec4f{0,0,0,0};
+                        // iterate in the neigh of size (2* f x 2 * f)
+                        // centered in p and q
+                        for(int fx = -f; fx < f; fx++){
+                            for(int fy = -f; fy < f; fy++){
+                                if (!out.contains({qx + fx,  qy + fy})) continue;
+                                if (!out.contains({i + fx,  j + fy})) continue;
+                                auto qf = out[{qx + fx, qy + fy}];
+                                auto pf = out[{i + fx, j + fy}];
+                                tot += pow(pf - qf, 2);
+                                //
+                            }
                         }
+                        auto d_tot = tot.x + tot.y + tot.z;
+                        //printf("%f", d_tot);
+                        d_tot /= (1.0f / (3.0f * pow(2.0f * f + 1.0f, 2)));
+                        //printf("%f", d_tot);
+                        auto w = exp(-max(pow(d_tot, 2) - 2 * pow(sigma, 2), 0.0f) / h * h);
+                        //printf("%f", w);
+                        c += w;
+                        acc += out[{qx, qy}] * w;
                     }
-                    auto d_tot = tot.x + tot.y + tot.z;
-                    //printf("%f", d_tot);
-                    d_tot /= (1.0f / (3.0f * pow(2.0f * f + 1.0f, 2)));
-                    //printf("%f", d_tot);
-                    auto w = exp(-max(pow(d_tot, 2) - 2 * pow(sigma, 2), 0.0f) / h * h);
-                    //printf("%f", w);
-                    c += w;
-                    acc += out[{qx, qy}] * w;
+
                 }
+                acc/=c;
+                //printf("%f", c);
+                out[{i, j}] = acc;
 
-            }
-            acc/=c;
-            //printf("%f", c);
-            out[{i, j}] = acc;
-
-            out[{i, j}] = math::pow(out[{i, j}], (1/2.2f));
-          //});
+                out[{i, j}] = math::pow(out[{i, j}], (1/2.2f));
+            //});
             } 
         }
         return out;
