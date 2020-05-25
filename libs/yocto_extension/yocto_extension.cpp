@@ -61,12 +61,15 @@ namespace yocto::extension {
 
     img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img, int r, int f, float sigma, float h){
         auto out = img;
-        parallel_for(img.size(), [&out, r, f, sigma, h](const vec2i& ij) {
-            
-            auto width = out.size().x;
-            auto height = out.size().y;
-            auto i = ij.x;
-            auto j = ij.y;
+        //parallel_for(img.size(), [&out, r, f, sigma, h](const vec2i& ij) {
+        auto width = out.size().x;
+        auto height = out.size().y;
+        for(int i; i < width; i++){
+            for(int j; j < height; i++){
+
+
+
+
             auto p = out[{i, j}];
             //printf("%d\n", i);
             //printf("%d\n", j);
@@ -111,8 +114,9 @@ namespace yocto::extension {
             out[{i, j}] = acc;
 
             out[{i, j}] = math::pow(out[{i, j}], (1/2.2f));
-          });
-        
+          //});
+            } 
+        }
         return out;
     }
 
