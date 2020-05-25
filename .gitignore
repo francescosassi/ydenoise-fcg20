@@ -1,11 +1,11 @@
 /bin
 build
-out
 .vscode/.cmaketools.json
 /*.hdr
 /*.exr
 /*.png
 .vscode/ipch/
+tests
 tests/renderings/*.png
 tests/renderings/*.hdr
 tests1/

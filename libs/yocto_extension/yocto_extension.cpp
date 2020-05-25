@@ -59,7 +59,7 @@ namespace yocto::extension {
     for (auto& f : futures) f.get();
     }
 
-    img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img, int r, int f, int sigma, int h){
+    img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img, int r, int f, float sigma, float h){
         auto out = img;
         parallel_for(img.size(), [&out, r, f, sigma, h](const vec2i& ij) {
             
@@ -72,7 +72,7 @@ namespace yocto::extension {
             //printf("%d\n", j);
 
             auto c = 0.0f;
-            auto acc = vec4f{0,0,0,0};
+            auto acc = vec4f{0, 0, 0, 0};
             //iterate in the neigh of size (2* r x 2 * r)
             
             for(int rx = -r; rx < r; rx++){
@@ -91,15 +91,15 @@ namespace yocto::extension {
                             if (!out.contains({i + fx,  j + fy})) continue;
                             auto qf = out[{qx + fx, qy + fy}];
                             auto pf = out[{i + fx, j + fy}];
-                            tot += math::pow(pf - qf, 2);
+                            tot += pow(pf - qf, 2);
                             //
                         }
                     }
                     auto d_tot = tot.x + tot.y + tot.z;
                     //printf("%f", d_tot);
-                    d_tot /= (1.0f / (3.0f * pow2(2.0f * f + 1.0f)));
+                    d_tot /= (1.0f / (3.0f * pow(2.0f * f + 1.0f, 2)));
                     //printf("%f", d_tot);
-                    auto w = exp(-max(d_tot - 2 * pow2(sigma), 0.0f) / h * h);
+                    auto w = exp(-max(pow(d_tot, 2) - 2 * pow(sigma, 2), 0.0f) / h * h);
                     //printf("%f", w);
                     c += w;
                     acc += out[{qx, qy}] * w;
