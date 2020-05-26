@@ -10,5 +10,5 @@
 :: bin\yscenetrace.exe tests\10_hair\hair.json -o out\lowres\10_hair_720_256.jpg -s 256 -r 720
 :: bin\yscenetrace.exe tests\11_bathroom1\bathroom1.json -o out\lowres\11_bathroom1_720_256.jpg -s 256 -b 8 -r 720
 :: bin\yscenetrace.exe tests\12_ecosys\ecosys.json -o out\lowres\12_ecosys_720_256.jpg -s 64 -r 720
-
-bin\RelWithDebInfo\yimagedenoise.exe out\lowres\01_cornellbox_512_256.png -o out\lowres\01_cornellbox_512_256_clean.png -t nlmean
+::bin\Release\yimagedenoise.exe out\lowres\01_cornellbox_512_256_clean.png -o out\lowres\01_cornellbox_512_256_clean2.png -t nlmean
+bin\Debug\yimagedenoise.exe out\lowres\01_cornellbox_512_256.jpg -o out\lowres\01_cornellbox_512_256_clean2.png -t nlmean -s 23 -r 17 -f 3 -h 3

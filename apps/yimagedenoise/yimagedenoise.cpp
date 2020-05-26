@@ -21,10 +21,18 @@ int main(int argc, const char* argv[]) {
   auto out_file   = "out.png"s;
   auto in_file = "img.png"s;
   auto type = "nlmean"s;
+  auto sigma = 7.0f;
+  auto r = 1;
+  auto f = 1;
+  auto h = 1.0f;
 
   // parse command line
   auto cli = cli::make_cli("yimagedenoise", "Intel Denoiser");
   add_option(cli, "--type,-t", type, "Output image filename", true);
+  add_option(cli, "--sigma,-s", sigma, "Sigma for nl means", true);
+  add_option(cli, "--radius,-r", r, "Radius image filename", true);
+  add_option(cli, "--frame,-f", f, "Frame image filename", true);
+  add_option(cli, "--height,-h", h, "Height image filename", true);
   add_option(cli, "--outimage,-o", out_file, "Output image filename", true);
   add_option(cli, "image", in_file, "Input image filename", true);
   parse_cli(cli, argc, argv);
@@ -41,31 +49,14 @@ int main(int argc, const char* argv[]) {
     if (!load_image(in_file, img, ioerror)) cli::print_fatal(ioerror);
 
     // corrections
-    
-    float sigma = 15;
-    int r;
-    int f;
-    float h ;
-    if (sigma > 0.0f && sigma <= 25.0f) {
-        r = 5;
-        f = 17;
-        h = 0.55f;
-
-    } else if (sigma > 25.0f && sigma <= 55.0f) {
-        r = 2;
-        f = 17;
-        h = 0.4f;
-
-    } else if (sigma <= 100.0f) {
-        r = 3;
-        f = 17;
-        h = 0.35f;
-
-    }
-    img = dns::denoise_nlmean(img, r, f, sigma, h*sigma);
+    printf("%d\n", r);
+    printf("%d\n", f);
+    printf("%f\n", sigma);
+    printf("%f\n", h);
+    img = dns::denoise_nlmean_patch(img, r, f, sigma, h);
 
     // save
-    if (!save_image(out_file, float_to_byte(img), ioerror))
+    if (!save_image(out_file, img, ioerror))
       cli::print_fatal(ioerror);
   } 
   else {
