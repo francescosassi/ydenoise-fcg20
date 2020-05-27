@@ -1632,8 +1632,15 @@ bool is_hdr_filename(const std::string& filename) {
       return write_error();
     return true;
   } else if (ext == ".pfm" || ext == ".PFM") {
+    //vertical flip
+    auto out = image<vec4f>(img.size());
+    for(int i = 0; i < out.size().x; i++){
+        for(int j = 0; j < out.size().y; j++){
+          out[{i,j}] = img[{i, img.size().y - j - 1}];
+        }
+    }
     if (!save_pfm(filename.c_str(), img.size().x, img.size().y, 4,
-            (float*)img.data()))
+            (float*)out.data()))
       return write_error();
     return true;
   } else if (ext == ".exr" || ext == ".EXR") {

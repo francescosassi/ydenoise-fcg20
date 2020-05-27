@@ -1,0 +1,1 @@
+bin/Release/yimagedenoise.exe out/original//01_cornellbox_512_256.jpg -o out/denoised/nlmeans/01_cornellbox_512_256_clean.png -t nlmean -s 9 -r 11 -f 3 -h 1

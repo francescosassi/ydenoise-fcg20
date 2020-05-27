@@ -29,10 +29,10 @@ int main(int argc, const char* argv[]) {
   // parse command line
   auto cli = cli::make_cli("yimagedenoise", "Intel Denoiser");
   add_option(cli, "--type,-t", type, "Output image filename", true);
-  add_option(cli, "--sigma,-s", sigma, "Sigma for nl means", true);
-  add_option(cli, "--radius,-r", r, "Radius image filename", true);
-  add_option(cli, "--frame,-f", f, "Frame image filename", true);
-  add_option(cli, "--height,-h", h, "Height image filename", true);
+  add_option(cli, "--sigma,-s", sigma, "Sigma for nl means", false);
+  add_option(cli, "--radius,-r", r, "Radius image filename", false);
+  add_option(cli, "--frame,-f", f, "Frame image filename", false);
+  add_option(cli, "--height,-h", h, "Height image filename", false);
   add_option(cli, "--outimage,-o", out_file, "Output image filename", true);
   add_option(cli, "image", in_file, "Input image filename", true);
   parse_cli(cli, argc, argv);
