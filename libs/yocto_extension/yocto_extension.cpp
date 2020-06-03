@@ -152,11 +152,11 @@ namespace yocto::extension {
                     for(int fy = -f; fy < f; fy++){
                         if (!img.contains({qx + fx,  qy + fy})) continue;
                         if (!img.contains({i + fx,  j + fy})) continue;
-                        auto qf = img[{qx + fx, qy + fy}];
-                        auto pf = img[{i + fx, j + fy}];
+                        auto qf = img[{qx + fx, qy + fy}] * 255;
+                        auto pf = img[{i + fx, j + fy}] * 255;
                         //printf("1 %f %f %f\n",qf.x, qf.y, qf.z);
                         //printf("2 %f %f %f\n",pf.x, pf.y, pf.z);
-                        tot += pow((pf - qf) * 255, 2);
+                        tot += (pf - qf) * (pf - qf);
                         //printf("2 %f %f %f\n",tot.x, tot.y, tot.z);
                         //
                     }
@@ -164,9 +164,9 @@ namespace yocto::extension {
                 
                 //auto d_tot = tot.x + tot.y + tot.z;
                 //printf("tpt: %f\n", tot);
-                auto dist = sum(tot) / (3.0f * pow(2.0f * f, 2));
+                auto dist = sum(tot) / (3.0f *  (2 * f + 1) * (2 * f + 1));
                 //printf("%f\n", dist);
-                auto w = exp(-max(dist - 2 * pow(sigma, 2), 0.0f) / pow(h, 2));
+                auto w = exp(-max(dist - 2 * (sigma * sigma), 0.0f) / (h * h));
                 //printf("%f\n", w);
                 //printf("%f", w);
                 c += w;
@@ -174,6 +174,7 @@ namespace yocto::extension {
             }
 
         }
+        //printf("%f\n", c);
         acc/=c;
         //printf("%f %f %f\n", acc.x, acc.y, acc.z);
         out[{i, j}] = acc;
@@ -182,22 +183,24 @@ namespace yocto::extension {
         return out;
     }
 
-    void denoise(float* colorPtr, float* outputPtr, int width, int height){
+    void denoise(float* color, float* albedo, float* normal, float* output, int width, int height){
         // Create an Intel Open Image Denoise device
-        printf("ciaoo2\n");
         oidn::DeviceRef device = oidn::newDevice();
         const char* errorMessage;
         if (device.getError(errorMessage) != oidn::Error::None)
             throw std::runtime_error(errorMessage);
         device.commit();
-        //printf("ciaoo\n");
         // Create a denoising filter
         oidn::FilterRef filter = device.newFilter("RT"); // generic ray tracing filter
-        filter.setImage("color",  colorPtr,  oidn::Format::Float3, width, height);
-        //filter.setImage("albedo", albedoPtr, oidn::Format::Float3, width, height); // optional
-        //filter.setImage("normal", normalPtr, oidn::Format::Float3, width, height); // optional
-        filter.setImage("output", outputPtr, oidn::Format::Float3, width, height);
-        filter.set("hdr", false); // image is HDR
+        filter.setImage("color",  color,  oidn::Format::Float3, width, height);
+        if(albedo != nullptr){
+            filter.setImage("albedo", albedo, oidn::Format::Float3, width, height);
+        }
+        if(normal != nullptr){
+            filter.setImage("normal", normal, oidn::Format::Float3, width, height);
+        }
+        filter.setImage("output", output, oidn::Format::Float3, width, height);
+        filter.set("hdr", true); // image is HDR
         filter.commit();
 
         // Filter the image

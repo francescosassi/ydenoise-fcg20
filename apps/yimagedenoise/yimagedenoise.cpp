@@ -20,6 +20,8 @@ int main(int argc, const char* argv[]) {
   auto param = ""s;
   auto out_file   = "out.png"s;
   auto in_file = "img.png"s;
+  auto albedo_file = "albedo.jpg"s;
+  auto normal_file = "normal.jpg"s;
   auto type = "nlmean"s;
   auto sigma = 7.0f;
   auto r = 1;
@@ -29,6 +31,8 @@ int main(int argc, const char* argv[]) {
   // parse command line
   auto cli = cli::make_cli("yimagedenoise", "Intel Denoiser");
   add_option(cli, "--type,-t", type, "Output image filename", true);
+  add_option(cli, "--albedo,-a", albedo_file, "Albedo for AI Denoise", false);
+  add_option(cli, "--normal,-n", normal_file, "Normals for AI Denoise", false);
   add_option(cli, "--sigma,-s", sigma, "Sigma for nl means", false);
   add_option(cli, "--radius,-r", r, "Radius image filename", false);
   add_option(cli, "--frame,-f", f, "Frame image filename", false);
@@ -48,6 +52,7 @@ int main(int argc, const char* argv[]) {
 
     if (!load_image(in_file, img, ioerror)) cli::print_fatal(ioerror);
 
+
     // corrections
     printf("%d\n", r);
     printf("%d\n", f);
@@ -62,15 +67,48 @@ int main(int argc, const char* argv[]) {
   else {
 
     auto buffer = oidn::loadImage(in_file);
-    printf("ciao\n");
+
     const int width  = buffer.getWidth();
     const int height = buffer.getHeight();
+
     printf("%d %d\n", width, height);
+
     oidn::ImageBuffer output(width, height, 3);
+
+    auto albedo_bool = false;
+    auto normal_bool = false;
+
+    oidn::ImageBuffer albedo(width, height, 3);
+    if (albedo_file != "albedo.jpg"){
+        albedo = oidn::loadImage(albedo_file);
+        auto albedo_bool = true;
+    }
+
+    oidn::ImageBuffer normal(width, height, 3);
+    if (normal_file != "normal.jpg"){
+        auto normal = oidn::loadImage(normal_file);
+        auto normal_bool = true;
+    }
+    
+    if (albedo_bool && normal_bool){
+      dns::denoise(buffer.getData(), albedo.getData(), normal.getData(), output.getData(), width, height);
+    }
+    else if (albedo_bool && !normal_bool) {
+      dns::denoise(buffer.getData(), albedo.getData(), nullptr, output.getData(), width, height);
+    }   
+    else if (!albedo_bool && normal_bool) {
+      dns::denoise(buffer.getData(), nullptr, normal.getData(), output.getData(), width, height);
+    }
+    else {
+      dns::denoise(buffer.getData(), nullptr, nullptr, output.getData(), width, height);
+    }
+    //auto normal = oidn::loadImage(normal_file);
+    //printf("ciao\n");
+
     printf("%p \n", buffer.getData());
     printf("%p \n", output.getData());
     //output.getData();
-    dns::denoise(buffer.getData(), output.getData(), width, height);
+
     oidn::saveImage(out_file, output);
   }
 

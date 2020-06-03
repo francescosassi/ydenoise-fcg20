@@ -3,8 +3,6 @@ build
 .vscode/.cmaketools.json
 /*.hdr
 /*.exr
-out/denoised/nlmean
-out/denoised/intel
 .vscode/ipch/
 .vs
 

@@ -1,21 +1,114 @@
-#./bin/Release/yscenetrace.exe tests/01_cornellbox/cornellbox.json -o out/original/01_cornellbox_512_256.jpg -s 256 -r 512
-#./bin/Release/yscenetrace.exe tests/01_cornellbox/cornellbox.json -o out/original/01_cornellbox_512_128.jpg -s 128 -r 512
-#./bin/Release/yscenetrace.exe tests/01_cornellbox/cornellbox.json -o out/original/01_cornellbox_512_64.jpg -s 64 -r 512
+#6 jpg
+#6 pfm
+#albedo
+#normals
+#full convergence
 
-./bin/Release/yscenetrace.exe tests/01_cornellbox/cornellbox.json -o out/original/01_cornellbox_512_256.pfm -s 256 -r 512
-./bin/Release/yscenetrace.exe tests/01_cornellbox/cornellbox.json -o out/original/01_cornellbox_512_128.pfm -s 128 -r 512
-./bin/Release/yscenetrace.exe tests/01_cornellbox/cornellbox.json -o out/original/01_cornellbox_512_64.pfm -s 64 -r 512
+#Small scene: classroom
 
-#./bin/Release/yscenetrace.exe tests/01_cornellbox/cornellbox.json -o out/original/01_cornellbox_512_256.pfm -s 64 -r 512
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/jpg/15_classroom_1080_4.jpg -s 4 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/jpg/15_classroom_1080_8.jpg -s 8 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/jpg/15_classroom_1080_16.jpg -s 16 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/jpg/15_classroom_1080_64.jpg -s 64 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/jpg/15_classroom_1080_128.jpg -s 128 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/jpg/15_classroom_1080_256.jpg -s 256 -r 1080
 
-#./bin/Release/yscenetrace.exe tests/02_matte/matte.json -o out/lowres/02_matte_720_256.jpg -s 25 -r 720
-#./bin/Release/yscenetrace.exe tests/03_texture/texture.json -o out/lowres/03_texture_720_256.jpg -s 256 -r 720
-#./bin/Release/yscenetrace.exe tests/04_envlight/envlight.json -o out/lowres/04_envlight_720_256.jpg -s 256 -r 720
-#./bin/Release/yscenetrace.exe tests/05_arealight/arealight.json -o out/lowres/05_arealight_720_256.jpg -s 256 -r 720
-#./bin/Release/yscenetrace.exe tests/06_metal/metal.json -o out/lowres/06_metal_720_256.jpg -s 256 -r 720
-#./bin/Release/yscenetrace.exe tests/07_plastic/plastic.json -o out/lowres/07_plastic_720_256.jpg -s 256 -r 720
-#./bin/Release/yscenetrace.exe tests/08_glass/glass.json -o out/lowres/08_glass_720_256.jpg -s 256 -b 8 -r 720
-#./bin/Release/yscenetrace.exe tests/09_opacity/opacity.json -o out/lowres/09_opacity_720_256.jpg -s 256 -r 720
-#./bin/Release/yscenetrace.exe tests/10_hair/hair.json -o out/lowres/10_hair_720_256.jpg -s 256 -r 720
-#./bin/Release/yscenetrace.exe tests/11_bathroom1/bathroom1.json -o out/lowres/11_bathroom1_720_256.jpg -s 256 -b 8 -r 720
-#./bin/Release/yscenetrace.exe tests/12_ecosys/ecosys.json -o out/lowres/12_ecosys_720_256.jpg -s 256 -r 720
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/pfm/15_classroom_1080_4.pfm -s 4 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/pfm/15_classroom_1080_8.pfm -s 8 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/pfm/15_classroom_1080_16.pfm -s 16 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/pfm/15_classroom_1080_64.pfm -s 64 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/pfm/15_classroom_1080_128.pfm -s 128 -r 1080
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/pfm/15_classroom_1080_256.pfm -s 256 -r 1080
+
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/pfm/15_classroom_1080_256_normal.pfm -s 256 -r 1080 --shader normal
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/pfm/15_classroom_1080_256_albedo.pfm -s 256 -r 1080 --shader eyelight
+
+#./bin/Release/yscenetrace.exe tests/15_classroom/classroom.json -o out/original/classroom/jpg/15_classroom_1080_1024.jpg -s 1024 -r 1080
+
+#Large scene: bistroexterior
+
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/jpg/bistroexterior_1080_4.jpg -s 4 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/jpg/bistroexterior_1080_8.jpg -s 8 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/jpg/bistroexterior_1080_16.jpg -s 16 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/jpg/bistroexterior_1080_64.jpg -s 64 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/jpg/bistroexterior_1080_128.jpg -s 128 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/jpg/bistroexterior_1080_256.jpg -s 256 -r 1080
+
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/pfm/bistroexterior_1080_4.pfm -s 4 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/pfm/bistroexterior_1080_8.pfm -s 8 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/pfm/bistroexterior_1080_16.pfm -s 16 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/pfm/bistroexterior_1080_64.pfm -s 64 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/pfm/bistroexterior_1080_128.pfm -s 128 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/pfm/bistroexterior_1080_256.pfm -s 256 -r 1080
+
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/pfm/bistroexterior_1080_256_normal.pfm -s 256 -r 1080 --shader normal
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/pfm/bistroexterior_1080_256_albedo.pfm  -s 256 -r 1080 --shader eyelight
+
+#./bin/Release/yscenetrace.exe tests/bistroexterior/bistroexterior.json -o out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg -s 1024 -r 1080
+
+
+#Large scene: bistrointerior
+
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/jpg/bistrointerior_1080_4.jpg -s 4 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/jpg/bistrointerior_1080_8.jpg -s 8 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/jpg/bistrointerior_1080_16.jpg -s 16 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/jpg/bistrointerior_1080_64.jpg -s 64 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/jpg/bistrointerior_1080_128.jpg -s 128 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/jpg/bistrointerior_1080_256.jpg -s 256 -r 1080
+
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/pfm/bistrointerior_1080_4.pfm -s 4 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/pfm/bistrointerior_1080_8.pfm -s 8 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/pfm/bistrointerior_1080_16.pfm -s 16 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/pfm/bistrointerior_1080_64.pfm -s 64 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/pfm/bistrointerior_1080_128.pfm -s 128 -r 1080
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/pfm/bistrointerior_1080_256.pfm -s 256 -r 1080
+
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/pfm/bistrointerior_1080_256_normal.pfm -s 256 -r 1080 --shader normal
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/pfm/bistrointerior_1080_256_albedo.pfm  -s 256 -r 1080 --shader eyelight
+
+
+#./bin/Release/yscenetrace.exe tests/bistrointerior/bistrointerior.json -o out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg -s 1024 -r 1080
+
+
+#Large scene: landscape
+
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/jpg/landscape_1080_4.jpg -s 4 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/jpg/landscape_1080_8.jpg -s 8 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/jpg/landscape_1080_16.jpg -s 16 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/jpg/landscape_1080_64.jpg -s 64 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/jpg/landscape_1080_128.jpg -s 128 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/jpg/landscape_1080_256.jpg -s 256 -r 1080 
+
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_4.pfm -s 4 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_8.pfm -s 8 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_16.pfm -s 16 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_64.pfm -s 64 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_128.pfm -s 128 -r 1080 
+./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_256.pfm -s 256 -r 1080 
+
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_256_normal.pfm -s 256 -r 1080 --shader normal
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_256_albedo.jpg  -s 256 -r 1080 --shader eyelight
+
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/jpg/landscape_1080_1024.jpg -s 1024 -r 1080 
+
+
+# Bonus: head
+
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_256.jpg -s 256 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_128.jpg-s 128 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_64.jpg -s 64 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_16.jpg -s 16 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_8.jpg -s 8 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_4.jpg -s 4 -r 1080
+
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/pfm/05_head1ss_1080_256.pfm -s 256 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/pfm/05_head1ss_1080_128.pfm -s 128 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/pfm/05_head1ss_1080_64.pfm -s 64 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/pfm/05_head1ss_1080_16.pfm -s 16 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/pfm/05_head1ss_1080_8.pfm -s 8 -r 1080
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/pfm/05_head1ss_1080_4.pfm -s 4 -r 1080
+
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/pfm/05_head1ss_1080_256_normal.pfm -s 256 -r 1080 --shader normal
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/pfm/05_head1ss_1080_256_albedo.jpg  -s 256 -r 1080 --shader eyelight
+
+#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_1024.jpg -s 1024 -r 1080

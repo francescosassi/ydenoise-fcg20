@@ -859,6 +859,83 @@ static vec3f eval_emission(
   return emission;
 }
 
+// Eval material to obatain emission, brdf and opacity.
+static brdf eval_brdf_eyelight(const ptr::object* object, int element, const vec2f& uv,
+    const vec3f& normal, const vec3f& outgoing) {
+  // material -------
+  // initialize factors
+  auto material = object->material;
+  auto texcoord = eval_texcoord(object, element, uv);
+  auto base     = material->color *
+              eval_texture(material->color_tex, texcoord, false);
+  auto specular = material->specular *
+                  eval_texture(material->specular_tex, texcoord, true).x;
+  auto metallic = material->metallic *
+                  eval_texture(material->metallic_tex, texcoord, true).x;
+  auto roughness = material->roughness *
+                   eval_texture(material->roughness_tex, texcoord, true).x;
+
+  auto ior          = material->ior;
+  auto transmission = material->transmission *
+                      eval_texture(material->emission_tex, texcoord, true).x;
+  auto opacity = material->opacity *
+                 mean(eval_texture(material->opacity_tex, texcoord, true));
+  auto thin = material->thin || !material->transmission;
+  
+
+  // factors
+  auto brdf   = ptr::brdf{};
+  auto weight = vec3f{1, 1, 1};
+  brdf.metal  = weight * metallic;
+  weight *= 1 - metallic;
+  brdf.refraction = thin ? zero3f : (weight * transmission);
+  weight *= 1 - (thin ? 0 : transmission);
+  brdf.specular = weight * specular;
+  weight *= 1 - specular * fresnel_dielectric(ior, outgoing, normal);
+  brdf.transmission = thin ? (weight * transmission * base) : zero3f;
+  weight *= 1 - (thin ? transmission : 0);
+  if (transmission >= 0){
+    brdf.diffuse = {1.0f, 1.0f, 1.0f};
+  } else {
+    brdf.diffuse   = weight * base;
+  }
+  brdf.meta      = reflectivity_to_eta(base);
+  brdf.metak     = zero3f;
+  brdf.roughness = roughness * roughness;
+  brdf.ior       = ior;
+  brdf.opacity   = opacity;
+
+  // textures
+  if (brdf.diffuse != zero3f || brdf.roughness) {
+    brdf.roughness = clamp(brdf.roughness, 0.03f * 0.03f, 1.0f);
+  }
+  if (brdf.specular == zero3f && brdf.metal == zero3f &&
+      brdf.transmission == zero3f && brdf.refraction == zero3f) {
+    brdf.roughness = 1;
+  }
+  if (brdf.opacity > 0.999f) brdf.opacity = 1;
+
+  // weights
+  brdf.diffuse_pdf  = max(brdf.diffuse);
+  brdf.specular_pdf = max(
+      brdf.specular * fresnel_dielectric(brdf.ior, normal, outgoing));
+  brdf.metal_pdf = max(
+      brdf.metal * fresnel_conductor(brdf.meta, brdf.metak, normal, outgoing));
+  brdf.transmission_pdf = max(brdf.transmission);
+  brdf.refraction_pdf   = max(brdf.refraction);
+  auto pdf_sum = brdf.diffuse_pdf + brdf.specular_pdf + brdf.metal_pdf +
+                 brdf.transmission_pdf + brdf.refraction_pdf;
+  if (pdf_sum) {
+    brdf.diffuse_pdf /= pdf_sum;
+    brdf.specular_pdf /= pdf_sum;
+    brdf.metal_pdf /= pdf_sum;
+    brdf.transmission_pdf /= pdf_sum;
+    brdf.refraction_pdf /= pdf_sum;
+  }
+  return brdf;
+}
+
+
 // Evaluates/sample the BRDF scaled by the cosine of the incoming direction.
 static vec3f eval_brdfcos(const ptr::brdf& brdf, const vec3f& normal,
     const vec3f& outgoing, const vec3f& incoming) {
