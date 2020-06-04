@@ -9,7 +9,7 @@ The code can be found at: https://github.com/francescosassi/ydenoise-fcg20
 * Part 1) I integrated [Intel® Open Image Denoise](https://openimagedenoise.github.io/) in yocto. I added the library inside the yocto_extension module, ad modified the Cmake file to link on Windows, Linux and Mac. It was tested only on Windows and Linux but it is written to also support macOS.
 The yocto_extension module provides two interfaces one for the AI denoising that leverage the Intel® Open Image Denoise and another for the Non-Local Means Denoiser.
 
-* Part 2) I implemented a Non-Local Means Denoiser from this paper [Non-Local Means Denoising](https://www.ipol.im/pub/art/2011/bcm_nlm/article.pdf). The algorithm is easy and beautiful. For each pixel *p* we iterate over all pixel *q* in a radius of size *r*. For each *q* we iterate in a second neighborhood of *q* and of *p* of size *f* and check how close they are. If they are close (and how we define close is ruled by a parameter *sigma*), the pixel *q* has a bigger weight in the average to compute the new value of *p*.
+* Part 2) I implemented a Non-Local Means Denoiser from this paper [Non-Local Means Denoising](https://www.ipol.im/pub/art/2011/bcm_nlm/article.pdf). The main idea for the algorithm is the following. For each pixel *p* we iterate over all pixel *q* in a radius of size *r*. For each *q* we iterate in a second neighborhood of *q* and of *p* of size *f* and check how close they are. If they are close (and how we define close is ruled by a parameter *sigma*), the pixel *q* has a bigger weight in the average to compute the new value of *p*.
 The algorithm was implemented inside yocto_extension.cpp.
 Since this algorithm can be computationally demanding, I implemented it in parallel, using the parallel_for.
 
@@ -49,6 +49,7 @@ The scene tested are large and realistic scenes. I used:
 * Head
 
 In this way, it is possible to see the behavior of the algorithms under a wide range of scenarios, from outside natural landscapes, to indoor and outdoor buildings and on skin denoising.
+The tests were performed on 1080p images. For the Intel® Open Image Denoise I used HDR images, while for the Non-Local Means Denoiser LDR images.
 
 Even if it is redundant, to simplify the comparison between the images they were arranged in this fashion:
 
@@ -502,5 +503,5 @@ The performances for the Intel® Open Image Denoiser are very good with low nois
 The tests where run on an intel i7-6700HQ.
 The Intel® Open Image Denoise is very fast. It takes maximum 2 seconds to denoise an image.
 The Non-Local Means Denoiser can be fast or slow according to the parameters.
-In some cases, when there is a few noise to remove (256 samples / 128 samples) it can takes 5 seconds.
+In some cases, when there is a few noise to remove (256 samples / 128 samples) it can take 5 seconds.
 For images that are harder to denoise and require larger windows of search, it can take minutes.
