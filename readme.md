@@ -501,12 +501,12 @@ The Intel® Open Image Denoise remove all the noise but the skin looks a little 
 
 # **Conclusion**
 The mains problem for the Non-Local Means Denoiser are:
-* Large patches of noise: If there are large zones of noise it is needed to increase the size of the research windows because it can be difficult to find pixels that are similar to the right color of the image. This can slow down the algorithm a lot.
-* The color of the noise is too far away from the color of the background: the assumption under which the algorithm work is that the noise is generated with a gaussian distribution of parameter sigma. If the noise is too far away from the surrounding it is needed to increase the parameter sigma, that can lead to blurring in some zones of the image.
-*The parameters require fine tuning: The best set of parameters vary a lot between different scenes. This is a manual step that requires a lot of time.
+* **Large patches of noise**: If there are large zones of noise it is needed to increase the size of the research windows because it can be difficult to find pixels that are similar to the right color of the image. This can slow down the algorithm a lot.
+* **When the color of the noise is too far away from the color of the surrounding**: the assumption under which the algorithm work is that the noise is generated with a gaussian distribution of parameter sigma. If the noise is too far away from the surrounding it is needed to increase the parameter sigma, that can lead to blurring in some zones of the image.
+* **The parameters require fine tuning**: The best set of parameters vary a lot between different scenes. This is a manual step that requires a lot of time.
 
 The performances for the Intel® Open Image Denoiser are very good with low noise images, and it is even able to reconstruct the images even from low samples. The downside are:
-* Sometimes it tends to blur some parts and there is a loss of some details (usually things look less sharp than what they should). 
+* **Sometimes it tends to blur some parts** and there is a loss of some details (usually things look less sharp than what they should). 
 * We need to consider that the scenes on which the tests have been performed are publicly available, so we cannot exclude that the AI model was trained on these scenes and the performances are therefore boosted. It would be interesting to test in on novel/not publicly accessible scenes.
 
 # **Considerations on performances**
