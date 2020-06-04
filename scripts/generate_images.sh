@@ -84,7 +84,7 @@
 #./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_16.pfm -s 16 -r 1080 
 #./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_64.pfm -s 64 -r 1080 
 #./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_128.pfm -s 128 -r 1080 
-./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_256.pfm -s 256 -r 1080 
+#./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_256.pfm -s 256 -r 1080 
 
 #./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_256_normal.pfm -s 256 -r 1080 --shader normal
 #./bin/Release/yscenetrace.exe tests/landscape/landscape.json -o out/original/landscape/pfm/landscape_1080_256_albedo.jpg  -s 256 -r 1080 --shader eyelight
@@ -95,7 +95,7 @@
 # Bonus: head
 
 #./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_256.jpg -s 256 -r 1080
-#./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_128.jpg-s 128 -r 1080
+./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_128.jpg -s 128 -r 1080
 #./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_64.jpg -s 64 -r 1080
 #./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_16.jpg -s 16 -r 1080
 #./bin/Release/yscenetrace.exe tests/05_head1ss/head1ss.json -o out/original/head/jpg/05_head1ss_1080_8.jpg -s 8 -r 1080

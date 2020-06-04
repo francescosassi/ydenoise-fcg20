@@ -77,7 +77,6 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_1024.jpg) 
 
-<hr /> 
 
 ## **Noisy Image (128 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_128.jpg) 
@@ -91,7 +90,7 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (64 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_16.jpg) 
@@ -105,7 +104,7 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (16 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_16.jpg) 
@@ -119,7 +118,7 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (8 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_8.jpg) 
@@ -133,7 +132,7 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (4 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_4.jpg) 
@@ -146,7 +145,7 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/landscape/jpg/landscape_1080_1024.jpg) 
-<hr /> 
+ 
 
 # **Bistrot Exterior**
 For 256 and 128 samples the Non-Local Means Denoiser removes only the part of the noise that is close to the surrounding but is unable to remove the pixel that are a lot brighter than the surrounding. As result, the denoised images have some very bright pixel of noise. It is possible to remove them but the configuration that removes them also make some part of the image a lot blurred. The Intel® Open Image Denoise does an excellent job in removing the noise and preserving details.
@@ -164,7 +163,7 @@ For 256 and 128 samples the Non-Local Means Denoiser removes only the part of th
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (128 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_128.jpg) 
@@ -178,7 +177,7 @@ For 256 and 128 samples the Non-Local Means Denoiser removes only the part of th
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (64 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_16.jpg) 
@@ -192,7 +191,7 @@ For 256 and 128 samples the Non-Local Means Denoiser removes only the part of th
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (16 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_16.jpg) 
@@ -206,7 +205,7 @@ For 256 and 128 samples the Non-Local Means Denoiser removes only the part of th
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (8 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_8.jpg) 
@@ -220,7 +219,7 @@ For 256 and 128 samples the Non-Local Means Denoiser removes only the part of th
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (4 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_4.jpg) 
@@ -234,7 +233,7 @@ For 256 and 128 samples the Non-Local Means Denoiser removes only the part of th
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 # **Bistrot Interior**
 For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates some noise at the cost of both details but also important elements. There is a chair near the bar counter, that has the same color of it and tends to disappear and merge with the noise. The problem, in that case, is that the color of the chair is too close to the color of the bar counter and the algorithm performs the average of the two colors.
@@ -251,7 +250,7 @@ For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates s
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (128 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_128.jpg) 
@@ -265,7 +264,7 @@ For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates s
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (64 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_16.jpg) 
@@ -279,7 +278,7 @@ For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates s
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (16 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_16.jpg) 
@@ -293,7 +292,7 @@ For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates s
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (8 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_8.jpg) 
@@ -307,7 +306,7 @@ For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates s
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (4 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_4.jpg) 
@@ -321,12 +320,13 @@ For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates s
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 # **Head**
 
-The Intel® Open Image Denoise remove all the noise but the skin looks a bit like plastic. The Non-Local Means Denoiser is unable to remove all the noise but tends to preserve some details.
-<hr /> 
+The Intel® Open Image Denoise remove all the noise but the skin looks very unrealistic and looks like it is made of soft plastic. The Non-Local Means Denoiser is unable to remove all the noise but tends to preserve some details.
+
+ 
 
 ## **Noisy Image (256 samples)**
 
@@ -341,7 +341,7 @@ The Intel® Open Image Denoise remove all the noise but the skin looks a bit lik
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (128 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_128.jpg) 
@@ -355,7 +355,7 @@ The Intel® Open Image Denoise remove all the noise but the skin looks a bit lik
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (64 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_16.jpg) 
@@ -369,7 +369,7 @@ The Intel® Open Image Denoise remove all the noise but the skin looks a bit lik
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (16 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_16.jpg) 
@@ -383,7 +383,7 @@ The Intel® Open Image Denoise remove all the noise but the skin looks a bit lik
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (8 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_8.jpg) 
@@ -397,7 +397,7 @@ The Intel® Open Image Denoise remove all the noise but the skin looks a bit lik
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_1024.jpg) 
 
-<hr /> 
+ 
 
 ## **Noisy Image (4 samples)**
 ![image](out/original/head/jpg/05_head1ss_1080_4.jpg) 
