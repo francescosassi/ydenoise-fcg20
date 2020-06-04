@@ -43,10 +43,10 @@ This is to study the different behaviour of the algorithm from a wide range of n
 The scene tested are large and realistic scenes. I used:
 
 * [Landscape](#Landscape)
-* [Bistro exterior](#Bistrot exterior)
-* [Bistro interior](#Bistrot interior)
+* [Bistro Exterior](#Bistrot Exterior)
+* [Bistro Interior](#Bistrot Ixterior)
 * [Classroom](#Classroom)
-* [Head](# **head**)
+* [Head](#Head)
 
 In this way, it is possible to see the behavior of the algorithms under a wide range of scenarios, from outside natural landscapes, to indoor and outdoor buildings and on skin denoising.
 The tests were performed on 1080p images. For the Intel® Open Image Denoise I used HDR images, while for the Non-Local Means Denoiser LDR images.
