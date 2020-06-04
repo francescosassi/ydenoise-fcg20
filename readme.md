@@ -43,8 +43,8 @@ This is to study the different behaviour of the algorithm from a wide range of n
 The scene tested are large and realistic scenes. I used:
 
 * [Landscape](#Landscape)
-* [Bistrot Exterior](#Bistrot Exterior)
-* [Bistrto Interior](#Bistrot Ixterior)
+* [Bistrot Exterior](#Bistrot%Exterior)
+* [Bistrot Interior](#Bistrot%Interior)
 * [Classroom](#Classroom)
 * [Head](#Head)
 
