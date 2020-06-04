@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>report.md</title>
+<title>readme.md</title>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
 <style>
@@ -367,28 +367,28 @@ code {
   </script>
 <h1 id="ai-denoising-draft"><strong>AI Denoising Draft</strong></h1>
 <p>Francesco Sassi 1661522</p>
+<p>The code can be found at: https://github.com/francescosassi/ydenoise-fcg20</p>
 <h1 id="introduction"><strong>Introduction</strong></h1>
-<p>Part 1) I integrated Intel AI denoise inside yocto. I added the libray inside the yocto_extension module, ad modified the Cmake file to link on Windows, Linux and Mac. This was tested only on Windows and LInux but it is written to support also Mac.
-The yocyo_extentions module provides two interfaces in a .h file, one for the ai denoising that leverage the intel library and another for the nlmeans denoiser
-I  then used this module to create a ydenoise app, that works specifying parameters from the cmd line.</p>
-<p>Part 1) I implemented NL means denoiser from this paper. From a conceptual point of view the algorithm is beautyfully easy. For each pixel we search in a radius of soze 'r' the pixel q. then we iterate the neightboorodd of q and check how close they are. If they are veryu close (and how we define close is ruled by a paramter sigma), the pixel q has a biggest weight in the average to computer the new value of p.
-This algorithm was implemented inside yocto_extension.cpp.
-Since this algorithm can be computationally demanding, I implemnted it in parallel, using the parallel_for.</p>
-<p>I used the two functions that I created in yocyo_extension to create a new app called ydenoise, that can be used to denoise an image with both those methods and take the following parameters:</p>
+<p>Part 1) I integrated <a href="https://openimagedenoise.github.io/">Intel® Open Image Denoise</a> in yocto. I added the libray inside the yocto_extension module, ad modified the Cmake file to link on Windows, Linux and Mac. It was tested only on Windows and Linux but it is written to also support also macOS.
+The yocto_extension module provides two interfaces one for the AI denoising that leverage the Intel® Open Image Denoise and another for the Non-Local Means Denoiser.</p>
+<p>Part 2) I implemented a Non-Local Means Denoiser from this paper <a href="https://www.ipol.im/pub/art/2011/bcm_nlm/article.pdf">Non-Local Means Denoising</a>. The algorithm is easy and beautyful. For each pixel 'p' we  iterate over all pixel 'q' in a radius of size 'r'. For each 'q' we iterate in a second neighboroob of 'q' and of 'p' of size 'f' and check how close they are. If they are close (and how we define close is ruled by a paramter sigma), the pixel 'q' has a biggest weight in the average to computer the new value of 'p'.
+The algorithm was implemented inside yocto_extension.cpp.
+Since this algorithm can be computationally demanding, I implemented it in parallel, using the parallel_for.</p>
+<p>I used the two functions that I created in yocto_extension to create a new app called <code>yimagedenoise</code>, that can be used to denoise an image with both those methods and take the following parameters:</p>
 <p>THe options are:</p>
 <ul>
-<li>--type,-t: to specify if use the nlmeans or the intel denoiser</li>
-<li>--albedo,-a: albedo image used by the intel denoiser</li>
-<li>--normal,-n: normal image used by the intel denoiser</li>
-<li>--sigma,-s: the sigma parameter for the nl mean algorithm</li>
-<li>--radius,-r: the radius parameter for the nl mean algorithm</li>
-<li>--frame,-f: the frame parameter for the nl mean algorithm</li>
-<li>--height,-h: filtering parameter for nlmean</li>
-<li>--outimage,-o: the output image</li>
-<li>image: the input image</li>
+<li><code>--type,-t</code>: to specify if use the nlmeans or the Intel® Open Image Denoise</li>
+<li><code>--albedo,-a</code>: albedo image used by the Intel® Open Image Denoise</li>
+<li><code>--normal,-n</code>: normal image used by the Intel® Open Image Denoise</li>
+<li><code>--sigma,-s</code>: the sigma parameter for the Non-Local Means Denoiser</li>
+<li><code>--radius,-r</code>: the radius parameter for the Non-Local Means Denoiser</li>
+<li><code>--frame,-f</code>: the frame parameter for the Non-Local Means Denoiser</li>
+<li><code>--height,-h</code>: filtering parameter for Non-Local Means Denoiser</li>
+<li><code>--outimage,-o</code>: the output image</li>
+<li><code>image</code>: the input image</li>
 </ul>
 <h1 id="tests"><strong>Tests</strong></h1>
-<p>One of the focus of this work is a torough testing of the algorithms under various conditions of noise intesnity. For this reason it was tested with images</p>
+<p>One of the focus of this work is a torough testing of noth the algorithms under various conditions of noise intesnity. For this reason it was tested with images generated using a wide range of samples:</p>
 <ul>
 <li>4 samples</li>
 <li>8 samples</li>
@@ -397,9 +397,8 @@ Since this algorithm can be computationally demanding, I implemnted it in parall
 <li>128 samples</li>
 <li>256 samples</li>
 </ul>
-<p>This is to study the different behaviour of the algorithm from a wide range of noise
-I included also image with very low samples as a challenge for to see how the algorithm can work under this extreme condition, I did not expect good results. In the case of 4 samples is basically reconstruction. for the case of 256 samples is just a fine grain noise remover</p>
-<p>The scene tested are large realistic scenes. It was used</p>
+<p>This is to study the different behaviour of the algorithm from a wide range of noise. In the case of 4 samples is basically reconstruction from a ruined image. For the case of 256 samples is just a fine grain noise remover. I included also image with very low samples just as a challenge to see how the algorithm can work under this extreme condition.</p>
+<p>The scene tested are large and realistic scenes. I used:</p>
 <ul>
 <li>Landscape</li>
 <li>Bistro exterior</li>
@@ -407,292 +406,294 @@ I included also image with very low samples as a challenge for to see how the al
 <li>Classroom</li>
 <li>Head</li>
 </ul>
-<p>In this way it is possible to see the bahovour under a wide range of scenario, from outside natural landscapes, to buildungs both indoor and outdoor and hte behaviour on the skin denoising.</p>
-<p>Even if it is redundant, to simplify the comparison between the images they where arranged in this fashion</p>
+<p>In this way it is possible to see the behaviour of the algorithms under a wide range of scenario, from outside natural landscapes, to buildings both indoor and outdoor and on skin denoising.</p>
+<p>Even if it is redundant, to simplify the comparison between the images they where arranged in this fashion:</p>
 <ul>
-<li>first image -&gt; noisy one</li>
-<li>second image -&gt; ai denoise</li>
-<li>third image -&gt; nlmean denoise</li>
-<li>fourth image -&gt; full convergence image</li>
+<li>First image -&gt; Noisy image</li>
+<li>Second image -&gt; Intel® Open Image Denoise</li>
+<li>Third image -&gt; Non-Local Means Denoiser</li>
+<li>Fourth image -&gt; Full convergence Image</li>
 </ul>
 <p>and this pattern is repeated for all the different samples the scenes where tested on.</p>
 <h1 id="landscape"><strong>Landscape</strong></h1>
 <h2 id="noisy-image-256-samples"><strong>Noisy Image (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_256.jpg" alt="image"></p>
-<h2 id="ai-denoise-256-samples"><strong>AI Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/landscape/landscape_1080_256_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-256-samples"><strong>Nl Mean Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/landscape/landscape_1080_256_denoised.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_256.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-256-samples"><strong>Intel® Open Image Denoise (256 samples)</strong></h2>
+<p><img src="out/denoised/intel/landscape/landscape_1080_256_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-256-samples"><strong>Non-Local Means Denoiser (256 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/landscape/landscape_1080_256_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-128-samples"><strong>Noisy Image (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_128.jpg" alt="image"></p>
-<h2 id="ai-denoise-128-samples"><strong>AI Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/landscape/landscape_1080_128_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-128-samples"><strong>Nl Mean Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/landscape/landscape_1080_128_denoised.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_128.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-128-samples"><strong>Intel® Open Image Denoise (128 samples)</strong></h2>
+<p><img src="out/denoised/intel/landscape/landscape_1080_128_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-128-samples"><strong>Non-Local Means Denoiser (128 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/landscape/landscape_1080_128_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-64-samples"><strong>Noisy Image (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-64-samples"><strong>AI Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/landscape/landscape_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-64-samples"><strong>Nl Mean Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/landscape/landscape_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-64-samples"><strong>Intel® Open Image Denoise (64 samples)</strong></h2>
+<p><img src="out/denoised/intel/landscape/landscape_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-64-samples"><strong>Non-Local Means Denoiser (64 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/landscape/landscape_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-16-samples"><strong>Noisy Image (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-16-samples"><strong>AI Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/landscape/landscape_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-16-samples"><strong>Nl Mean Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/landscape/landscape_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-16-samples"><strong>Intel® Open Image Denoise (16 samples)</strong></h2>
+<p><img src="out/denoised/intel/landscape/landscape_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-16-samples"><strong>Non-Local Means Denoiser (16 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/landscape/landscape_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-8-samples"><strong>Noisy Image (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_8.jpg" alt="image"></p>
-<h2 id="ai-denoise-8-samples"><strong>AI Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/landscape/landscape_1080_8_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-8-samples"><strong>Nl Mean Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/landscape/landscape_1080_8_denoised.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_8.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-8-samples"><strong>Intel® Open Image Denoise (8 samples)</strong></h2>
+<p><img src="out/denoised/intel/landscape/landscape_1080_8_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-8-samples"><strong>Non-Local Means Denoiser (8 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/landscape/landscape_1080_8_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-4-samples"><strong>Noisy Image (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_4.jpg" alt="image"></p>
-<h2 id="ai-denoise-4-samples"><strong>AI Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/landscape/landscape_1080_4_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-4-samples"><strong>Nl Mean Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/landscape/landscape_1080_4_denoised.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_4.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-4-samples"><strong>Intel® Open Image Denoise (4 samples)</strong></h2>
+<p><img src="out/denoised/intel/landscape/landscape_1080_4_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-4-samples"><strong>Non-Local Means Denoiser (4 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/landscape/landscape_1080_4_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/landscape/jpg/landscape_1080_1024.jpg" alt="image"></p>
+<hr /> 
 <h1 id="bistroexterior"><strong>bistroexterior</strong></h1>
 <h2 id="noisy-image-256-samples"><strong>Noisy Image (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_256.jpg" alt="image"></p>
-<h2 id="ai-denoise-256-samples"><strong>AI Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistroexterior/bistroexterior_1080_256_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-256-samples"><strong>Nl Mean Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistroexterior/bistroexterior_1080_256_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_256.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-256-samples"><strong>Intel® Open Image Denoise (256 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistroexterior/bistroexterior_1080_256_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-256-samples"><strong>Non-Local Means Denoiser (256 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistroexterior/bistroexterior_1080_256_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-128-samples"><strong>Noisy Image (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_128.jpg" alt="image"></p>
-<h2 id="ai-denoise-128-samples"><strong>AI Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistroexterior/bistroexterior_1080_128_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-128-samples"><strong>Nl Mean Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistroexterior/bistroexterior_1080_128_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_128.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-128-samples"><strong>Intel® Open Image Denoise (128 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistroexterior/bistroexterior_1080_128_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-128-samples"><strong>Non-Local Means Denoiser (128 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistroexterior/bistroexterior_1080_128_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-64-samples"><strong>Noisy Image (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-64-samples"><strong>AI Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistroexterior/bistroexterior_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-64-samples"><strong>Nl Mean Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistroexterior/bistroexterior_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-64-samples"><strong>Intel® Open Image Denoise (64 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistroexterior/bistroexterior_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-64-samples"><strong>Non-Local Means Denoiser (64 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistroexterior/bistroexterior_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-16-samples"><strong>Noisy Image (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-16-samples"><strong>AI Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistroexterior/bistroexterior_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-16-samples"><strong>Nl Mean Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistroexterior/bistroexterior_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-16-samples"><strong>Intel® Open Image Denoise (16 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistroexterior/bistroexterior_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-16-samples"><strong>Non-Local Means Denoiser (16 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistroexterior/bistroexterior_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-8-samples"><strong>Noisy Image (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_8.jpg" alt="image"></p>
-<h2 id="ai-denoise-8-samples"><strong>AI Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistroexterior/bistroexterior_1080_8_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-8-samples"><strong>Nl Mean Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistroexterior/bistroexterior_1080_8_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_8.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-8-samples"><strong>Intel® Open Image Denoise (8 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistroexterior/bistroexterior_1080_8_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-8-samples"><strong>Non-Local Means Denoiser (8 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistroexterior/bistroexterior_1080_8_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-4-samples"><strong>Noisy Image (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_4.jpg" alt="image"></p>
-<h2 id="ai-denoise-4-samples"><strong>AI Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistroexterior/bistroexterior_1080_4_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-4-samples"><strong>Nl Mean Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistroexterior/bistroexterior_1080_4_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_4.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-4-samples"><strong>Intel® Open Image Denoise (4 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistroexterior/bistroexterior_1080_4_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-4-samples"><strong>Non-Local Means Denoiser (4 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistroexterior/bistroexterior_1080_4_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
-<h1 id="bistrointerior"><strong>bistrointerior</strong></h1>
+<p><img src="out/original/bistroexterior/jpg/bistroexterior_1080_1024.jpg" alt="image"></p>
+<hr /> 
+<h1 id="bistrot-interior"><strong>Bistrot Interior</strong></h1>
 <h2 id="noisy-image-256-samples"><strong>Noisy Image (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_256.jpg" alt="image"></p>
-<h2 id="ai-denoise-256-samples"><strong>AI Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistrointerior/bistrointerior_1080_256_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-256-samples"><strong>Nl Mean Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistrointerior/bistrointerior_1080_256_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_256.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-256-samples"><strong>Intel® Open Image Denoise (256 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistrointerior/bistrointerior_1080_256_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-256-samples"><strong>Non-Local Means Denoiser (256 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistrointerior/bistrointerior_1080_256_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-128-samples"><strong>Noisy Image (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_128.jpg" alt="image"></p>
-<h2 id="ai-denoise-128-samples"><strong>AI Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistrointerior/bistrointerior_1080_128_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-128-samples"><strong>Nl Mean Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistrointerior/bistrointerior_1080_128_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_128.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-128-samples"><strong>Intel® Open Image Denoise (128 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistrointerior/bistrointerior_1080_128_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-128-samples"><strong>Non-Local Means Denoiser (128 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistrointerior/bistrointerior_1080_128_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-64-samples"><strong>Noisy Image (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-64-samples"><strong>AI Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistrointerior/bistrointerior_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-64-samples"><strong>Nl Mean Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistrointerior/bistrointerior_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-64-samples"><strong>Intel® Open Image Denoise (64 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistrointerior/bistrointerior_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-64-samples"><strong>Non-Local Means Denoiser (64 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistrointerior/bistrointerior_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-16-samples"><strong>Noisy Image (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-16-samples"><strong>AI Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistrointerior/bistrointerior_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-16-samples"><strong>Nl Mean Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistrointerior/bistrointerior_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-16-samples"><strong>Intel® Open Image Denoise (16 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistrointerior/bistrointerior_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-16-samples"><strong>Non-Local Means Denoiser (16 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistrointerior/bistrointerior_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-8-samples"><strong>Noisy Image (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_8.jpg" alt="image"></p>
-<h2 id="ai-denoise-8-samples"><strong>AI Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistrointerior/bistrointerior_1080_8_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-8-samples"><strong>Nl Mean Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistrointerior/bistrointerior_1080_8_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_8.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-8-samples"><strong>Intel® Open Image Denoise (8 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistrointerior/bistrointerior_1080_8_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-8-samples"><strong>Non-Local Means Denoiser (8 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistrointerior/bistrointerior_1080_8_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-4-samples"><strong>Noisy Image (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_4.jpg" alt="image"></p>
-<h2 id="ai-denoise-4-samples"><strong>AI Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/bistrointerior/bistrointerior_1080_4_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-4-samples"><strong>Nl Mean Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/bistrointerior/bistrointerior_1080_4_denoised.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_4.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-4-samples"><strong>Intel® Open Image Denoise (4 samples)</strong></h2>
+<p><img src="out/denoised/intel/bistrointerior/bistrointerior_1080_4_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-4-samples"><strong>Non-Local Means Denoiser (4 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/bistrointerior/bistrointerior_1080_4_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg" alt="image"></p>
 <h2 id="noisy-image-256-samples"><strong>Noisy Image (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_256.jpg" alt="image"></p>
-<h2 id="ai-denoise-256-samples"><strong>AI Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/classroom/classroom_1080_256_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-256-samples"><strong>Nl Mean Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/classroom/classroom_1080_256_denoised.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_256.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-256-samples"><strong>Intel® Open Image Denoise (256 samples)</strong></h2>
+<p><img src="out/denoised/intel/classroom/classroom_1080_256_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-256-samples"><strong>Non-Local Means Denoiser (256 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/classroom/classroom_1080_256_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-128-samples"><strong>Noisy Image (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_128.jpg" alt="image"></p>
-<h2 id="ai-denoise-128-samples"><strong>AI Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/classroom/classroom_1080_128_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-128-samples"><strong>Nl Mean Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/classroom/classroom_1080_128_denoised.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_128.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-128-samples"><strong>Intel® Open Image Denoise (128 samples)</strong></h2>
+<p><img src="out/denoised/intel/classroom/classroom_1080_128_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-128-samples"><strong>Non-Local Means Denoiser (128 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/classroom/classroom_1080_128_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-64-samples"><strong>Noisy Image (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-64-samples"><strong>AI Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/classroom/classroom_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-64-samples"><strong>Nl Mean Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/classroom/classroom_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-64-samples"><strong>Intel® Open Image Denoise (64 samples)</strong></h2>
+<p><img src="out/denoised/intel/classroom/classroom_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-64-samples"><strong>Non-Local Means Denoiser (64 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/classroom/classroom_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-16-samples"><strong>Noisy Image (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-16-samples"><strong>AI Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/classroom/classroom_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-16-samples"><strong>Nl Mean Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/classroom/classroom_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-16-samples"><strong>Intel® Open Image Denoise (16 samples)</strong></h2>
+<p><img src="out/denoised/intel/classroom/classroom_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-16-samples"><strong>Non-Local Means Denoiser (16 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/classroom/classroom_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-8-samples"><strong>Noisy Image (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_8.jpg" alt="image"></p>
-<h2 id="ai-denoise-8-samples"><strong>AI Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/classroom/classroom_1080_8_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-8-samples"><strong>Nl Mean Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/classroom/classroom_1080_8_denoised.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_8.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-8-samples"><strong>Intel® Open Image Denoise (8 samples)</strong></h2>
+<p><img src="out/denoised/intel/classroom/classroom_1080_8_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-8-samples"><strong>Non-Local Means Denoiser (8 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/classroom/classroom_1080_8_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-4-samples"><strong>Noisy Image (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_4.jpg" alt="image"></p>
-<h2 id="ai-denoise-4-samples"><strong>AI Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/classroom/classroom_1080_4_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-4-samples"><strong>Nl Mean Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/classroom/classroom_1080_4_denoised.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_4.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-4-samples"><strong>Intel® Open Image Denoise (4 samples)</strong></h2>
+<p><img src="out/denoised/intel/classroom/classroom_1080_4_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-4-samples"><strong>Non-Local Means Denoiser (4 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/classroom/classroom_1080_4_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/classroom/jpg/classroom_1080_1024.jpg" alt="image"></p>
 <h2 id="noisy-image-256-samples"><strong>Noisy Image (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_256.jpg" alt="image"></p>
-<h2 id="ai-denoise-256-samples"><strong>AI Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/head/05_head1ss_1080_256_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-256-samples"><strong>Nl Mean Denoise (256 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/head/05_head1ss_1080_256_denoised.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_256.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-256-samples"><strong>Intel® Open Image Denoise (256 samples)</strong></h2>
+<p><img src="out/denoised/intel/head/05_head1ss_1080_256_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-256-samples"><strong>Non-Local Means Denoiser (256 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/head/05_head1ss_1080_256_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-128-samples"><strong>Noisy Image (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_128.jpg" alt="image"></p>
-<h2 id="ai-denoise-128-samples"><strong>AI Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/head/05_head1ss_1080_128_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-128-samples"><strong>Nl Mean Denoise (128 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/head/05_head1ss_1080_128_denoised.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_128.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-128-samples"><strong>Intel® Open Image Denoise (128 samples)</strong></h2>
+<p><img src="out/denoised/intel/head/05_head1ss_1080_128_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-128-samples"><strong>Non-Local Means Denoiser (128 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/head/05_head1ss_1080_128_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-64-samples"><strong>Noisy Image (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-64-samples"><strong>AI Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/head/05_head1ss_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-64-samples"><strong>Nl Mean Denoise (64 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/head/05_head1ss_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-64-samples"><strong>Intel® Open Image Denoise (64 samples)</strong></h2>
+<p><img src="out/denoised/intel/head/05_head1ss_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-64-samples"><strong>Non-Local Means Denoiser (64 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/head/05_head1ss_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-16-samples"><strong>Noisy Image (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_16.jpg" alt="image"></p>
-<h2 id="ai-denoise-16-samples"><strong>AI Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/head/05_head1ss_1080_16_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-16-samples"><strong>Nl Mean Denoise (16 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/head/05_head1ss_1080_16_denoised.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_16.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-16-samples"><strong>Intel® Open Image Denoise (16 samples)</strong></h2>
+<p><img src="out/denoised/intel/head/05_head1ss_1080_16_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-16-samples"><strong>Non-Local Means Denoiser (16 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/head/05_head1ss_1080_16_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-8-samples"><strong>Noisy Image (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_8.jpg" alt="image"></p>
-<h2 id="ai-denoise-8-samples"><strong>AI Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/head/05_head1ss_1080_8_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-8-samples"><strong>Nl Mean Denoise (8 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/head/05_head1ss_1080_8_denoised.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_8.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-8-samples"><strong>Intel® Open Image Denoise (8 samples)</strong></h2>
+<p><img src="out/denoised/intel/head/05_head1ss_1080_8_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-8-samples"><strong>Non-Local Means Denoiser (8 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/head/05_head1ss_1080_8_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
 <hr /> 
 <h2 id="noisy-image-4-samples"><strong>Noisy Image (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_4.jpg" alt="image"></p>
-<h2 id="ai-denoise-4-samples"><strong>AI Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/intel/head/05_head1ss_1080_4_denoised.png" alt="image"></p>
-<h2 id="nl-mean-denoise-4-samples"><strong>Nl Mean Denoise (4 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/denoised/nlmean/head/05_head1ss_1080_4_denoised.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_4.jpg" alt="image"></p>
+<h2 id="intel%C2%AE-open-image-denoise-4-samples"><strong>Intel® Open Image Denoise (4 samples)</strong></h2>
+<p><img src="out/denoised/intel/head/05_head1ss_1080_4_denoised.png" alt="image"></p>
+<h2 id="non-local-means-denoiser-4-samples"><strong>Non-Local Means Denoiser (4 samples)</strong></h2>
+<p><img src="out/denoised/nlmean/head/05_head1ss_1080_4_denoised.jpg" alt="image"></p>
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
-<p><img src="Progetto/ydenoise-fcg20/out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
+<p><img src="out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
 <h1 id="conclusion"><strong>Conclusion</strong></h1>
-<p>The main problem for the nlmeans denoise are large patches of noise. If there are large zones of noise it is needed to increase the size of the research windows because it can be difficult to find pixels that are similar to the right color of the image. THis can slow down the process. Moreover, another problema is when the color of the noise is too far away from the color of the background. One of the assumption of the algorithm is that the noise is generated with a gaussian distribution of paramter sigma. If the noise is too far away from the background it is needed to increase the paramtere sigma, thatn can lead to blurring in some zones of the image.
-The performances for the AI denoiser are impressive, and it is able to reconstruct the image even from</p>
+<p>The main problem for the Non-Local Means Denoiser are large patches of noise. If there are large zones of noise it is needed to increase the size of the research windows because it can be difficult to find pixels that are similar to the right color of the image. THis can slow down the algorithm a lot. Moreover, another problema is when the color of the noise is too far away from the color of the background. One of the assumption of the algorithm is that the noise is generated with a gaussian distribution of paramter sigma. If the noise is too far away from the actual color of the image it is needed to increase the parameter sigma, that can lead to blurring in some zones of the image.
+The performances for the Intel® Open Image Denoiser are impressive, and it is able to reconstruct the image even from low samples. With images with low noise it tends to blur some parts a there is a loss of some details (mainly sharpness).</p>
 <h1 id="considerations-on-performances"><strong>Considerations on performances</strong></h1>
 <p>The tests where run on an intel i7-6700HQ.
-The denoiser by intel is stupidly fast. To denoise an image it takes max 2 seconds.
-The nl means denoise can be super fast or super slow according to the parameters.
-In some cases, when there is a few noise to remove (256 samples / 128 samples) it takes 5 seconds.
-For images that are harder to denoise it can take minutes</p>
+The Intel® Open Image Denoise is blazing fast.  It takes at maximum 2 seconds To denoise an image.
+The Non-Local Means Denoiser can be super fast or super slow according to the parameters.
+In some cases, when there is a few noise to remove (256 samples / 128 samples) it can takes 5 seconds.
+For images that are harder to denoise and require a larger windows of search it can take minutes.</p>
 
 </body>
 </html>
