@@ -43,8 +43,8 @@ This is to study the different behaviour of the algorithm from a wide range of n
 The scene tested are large and realistic scenes. I used:
 
 * [Landscape](#Landscape)
-* [Bistro Exterior](#Bistrot Exterior)
-* [Bistro Interior](#Bistrot Ixterior)
+* [Bistrot Exterior](#Bistrot Exterior)
+* [Bistrto Interior](#Bistrot Ixterior)
 * [Classroom](#Classroom)
 * [Head](#Head)
 
@@ -150,6 +150,7 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 <hr /> 
 
 # **Bistrot Exterior**
+For 256 and 128 samples the Non-Local Means Denoiser removes only the part of the noise that is close to the surrounding but is unable to remove the pixel that are a lot brighter than the surrounding. As result, the denoised images have some very bright pixel of noise. It is possible to remove them but the configuration that removes them also make some part of the image a lot blurred. The Intel® Open Image Denoise does an excellent job in removing the noise and preserving details.
 
 ## **Noisy Image (256 samples)**
 
@@ -237,7 +238,7 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 <hr /> 
 
 # **Bistrot Interior**
-
+For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates some noise at the cost of both details but also important elements. There is a chair nearby the bar counter, that has the same color of it and tends to disappears and merge with the noise. The problem in that case is that the color of the chair is too close to the color of the bar counter and the algorithm performs the average of the two colors.
 ## **Noisy Image (256 samples)**
 
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_256.jpg) 
@@ -411,6 +412,8 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 <hr /> 
 
 # **Head**
+
+The Intel® Open Image Denoise remove all the noise but the skin looks a little like pastic. The Non-Local Means Denoiser is unable to remove all the noise but tends to preserve some details.
 <hr /> 
 
 ## **Noisy Image (256 samples)**
@@ -502,7 +505,9 @@ The mains problem for the Non-Local Means Denoiser are:
 * The color of the noise is too far away from the color of the background: the assumption under which the algorithm work is that the noise is generated with a gaussian distribution of parameter sigma. If the noise is too far away from the surrounding it is needed to increase the parameter sigma, that can lead to blurring in some zones of the image.
 *The parameters require fine tuning: The best set of parameters vary a lot between different scenes. This is a manual step that requires a lot of time.
 
-The performances for the Intel® Open Image Denoiser are very good with low noise images, and it is even able to reconstruct the images even from low samples. The downside is that sometimes it tends to blur some parts and there is a loss of some details (usually things look less sharp than what they should).
+The performances for the Intel® Open Image Denoiser are very good with low noise images, and it is even able to reconstruct the images even from low samples. The downside are:
+* Sometimes it tends to blur some parts and there is a loss of some details (usually things look less sharp than what they should). 
+* We need to consider that the scenes on which the tests have been performed are publicly available, so we cannot exclude that the AI model was trained on these scenes and the performances are therefore boosted. It would be interesting to test in on novel/not publicly accessible scenes.
 
 # **Considerations on performances**
 The tests where run on an intel i7-6700HQ.
