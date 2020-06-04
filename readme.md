@@ -59,7 +59,7 @@ Even if it is redundant, to simplify the comparison between the images they were
 
 and this pattern is repeated for all the different samples the scenes were tested on.
 
-The parameter I used to generate the original and the denoised images are inside the `scripts ` folder in the files `generate_iamges.sh `, `intel.sh ` and `nlmean.sh ` 
+The parameter I used to generate the original and the denoised images are inside the `scripts ` folder in the files `generate_images.sh `, `intel.sh ` and `nlmean.sh ` 
 # **Landscape**
 
 For the images with 256 and 128 samples, the Intel® Open Image Denoise is able to preserve the details of the trees in the background, but the grass seems a bit too homogeneous. The Non-Local Means Denoiser removes some of the details of the trees in the background, keeps more details of the grass in some zones, but creates some large patches of homogeneous color, in zones where the variance between the noise and the surrounding is low.
@@ -237,7 +237,7 @@ For 256 and 128 samples the Non-Local Means Denoiser removes only the part of th
 <hr /> 
 
 # **Bistrot Interior**
-For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates some noise at the cost of both details but also important elements. There is a chair nearby the bar counter, that has the same color of it and tends to disappears and merge with the noise. The problem in that case is that the color of the chair is too close to the color of the bar counter and the algorithm performs the average of the two colors.
+For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates some noise at the cost of both details but also important elements. There is a chair near the bar counter, that has the same color of it and tends to disappear and merge with the noise. The problem, in that case, is that the color of the chair is too close to the color of the bar counter and the algorithm performs the average of the two colors.
 ## **Noisy Image (256 samples)**
 
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_256.jpg) 
@@ -325,7 +325,7 @@ For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates s
 
 # **Head**
 
-The Intel® Open Image Denoise remove all the noise but the skin looks a little like pastic. The Non-Local Means Denoiser is unable to remove all the noise but tends to preserve some details.
+The Intel® Open Image Denoise remove all the noise but the skin looks a bit like plastic. The Non-Local Means Denoiser is unable to remove all the noise but tends to preserve some details.
 <hr /> 
 
 ## **Noisy Image (256 samples)**
@@ -425,5 +425,5 @@ The performances for the Intel® Open Image Denoiser are very good with low nois
 The tests where run on an intel i7-6700HQ.
 The Intel® Open Image Denoise is very fast. It takes maximum 2 seconds to denoise an image.
 The Non-Local Means Denoiser can be fast or slow according to the parameters.
-In some cases, when there is a few noise to remove (256 samples / 128 samples) it can take 5 seconds.
+In some cases, when there is a not a lot of noise to remove (256 samples / 128 samples) it can take 5 seconds.
 For images that are harder to denoise and require larger windows of search, it can take minutes.
