@@ -42,10 +42,10 @@ This is to study the different behaviour of the algorithm from a wide range of n
 
 The scene tested are large and realistic scenes. I used:
 
-* [Landscape](# **Landscape**)
-* [Bistro exterior](# **bistroexterior**)
-* [Bistro interior](# **bistroexterior**)
-* [Classroom](# **classroom**)
+* [Landscape](#Landscape)
+* [Bistro exterior](#Bistrot exterior)
+* [Bistro interior](#Bistrot interior)
+* [Classroom](#Classroom)
 * [Head](# **head**)
 
 In this way, it is possible to see the behavior of the algorithms under a wide range of scenarios, from outside natural landscapes, to indoor and outdoor buildings and on skin denoising.
@@ -149,9 +149,7 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 ![image](out/original/landscape/jpg/landscape_1080_1024.jpg) 
 <hr /> 
 
-# **bistroexterior**
-
-
+# **Bistrot Exterior**
 
 ## **Noisy Image (256 samples)**
 
@@ -324,6 +322,9 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg) 
 
 
+## **Classroom**
+<hr /> 
+
 ## **Noisy Image (256 samples)**
 
 ![image](out/original/classroom/jpg/classroom_1080_256.jpg) 
@@ -407,6 +408,10 @@ For very low samples the Intel® Open Image Denoise is still able to remove all 
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/classroom/jpg/classroom_1080_1024.jpg) 
 
+<hr /> 
+
+# **Head**
+<hr /> 
 
 ## **Noisy Image (256 samples)**
 
