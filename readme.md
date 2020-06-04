@@ -6,7 +6,7 @@ The code can be found at: https://github.com/francescosassi/ydenoise-fcg20
 
 # **Introduction**
 
-1. I integrated [Intel® Open Image Denoise](https://openimagedenoise.github.io/) in yocto. I added the library inside the yocto_extension module, ad modified the Cmake file to link on Windows, Linux and Mac. It was tested only on Windows and Linux but it is written to also support macOS.
+1. I integrated [Intel® Open Image Denoise](https://openimagedenoise.github.io/) in yocto. I added the library inside the yocto_extension module, and modified the Cmake file to link on Windows, Linux and Mac. It was tested only on Windows and Linux but it is written to also support macOS.
 The yocto_extension module provides two interfaces one for the AI denoising that leverage the Intel® Open Image Denoise and another for the Non-Local Means Denoiser.
 
 2. I implemented a Non-Local Means Denoiser from this paper [Non-Local Means Denoising](https://www.ipol.im/pub/art/2011/bcm_nlm/article.pdf). The main idea for the algorithm is the following. For each pixel *p* we iterate over all pixel *q* in a radius of size *r*. For each *q* we iterate in a second neighborhood of *q* and of *p* of size *f* and check how close they are. If they are close (and how we define close is ruled by a parameter *sigma*), the pixel *q* has a bigger weight in the average to compute the new value of *p*.
