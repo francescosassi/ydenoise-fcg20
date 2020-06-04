@@ -15,7 +15,7 @@ Since this algorithm can be computationally demanding, I implemented it in paral
 
 I used the two functions created in yocto_extension to create a new app called `yimagedenoise`, that can be used to denoise an image with both those methods and take the following parameters:
 
-THe options are:
+The options are:
 * `--type,-t`: to specify if use the nlmeans or the Intel® Open Image Denoise
 * `--albedo,-a`: the albedo image used by the Intel® Open Image Denoise
 * `--normal,-n`: the normal image used by the Intel® Open Image Denoise
@@ -45,7 +45,6 @@ The scene tested are large and realistic scenes. I used:
 * [Landscape](#Landscape)
 * [Bistrot Exterior](#Bistrot-Exterior)
 * [Bistrot Interior](#Bistrot-Interior)
-* [Classroom](#Classroom)
 * [Head](#Head)
 
 In this way, it is possible to see the behavior of the algorithms under a wide range of scenarios, from outside natural landscapes, to indoor and outdoor buildings and on skin denoising.
@@ -321,93 +320,6 @@ For this scene, the Non-Local Means Denoiser on 256 and 128 samples eliminates s
 
 ## **Full convergence Image (1024 samples)**
 ![image](out/original/bistrointerior/jpg/bistrointerior_1080_1024.jpg) 
-
-
-## **Classroom**
-<hr /> 
-
-## **Noisy Image (256 samples)**
-
-![image](out/original/classroom/jpg/classroom_1080_256.jpg) 
-
-## **Intel® Open Image Denoise (256 samples)**
-![image](out/denoised/intel/classroom/classroom_1080_256_denoised.png)
-
-## **Non-Local Means Denoiser (256 samples)**
-![image](out/denoised/nlmean/classroom/classroom_1080_256_denoised.jpg)
-
-## **Full convergence Image (1024 samples)**
-![image](out/original/classroom/jpg/classroom_1080_1024.jpg) 
-
-<hr /> 
-
-## **Noisy Image (128 samples)**
-![image](out/original/classroom/jpg/classroom_1080_128.jpg) 
-
-## **Intel® Open Image Denoise (128 samples)**
-![image](out/denoised/intel/classroom/classroom_1080_128_denoised.png)
-
-## **Non-Local Means Denoiser (128 samples)**
-![image](out/denoised/nlmean/classroom/classroom_1080_128_denoised.jpg)
-
-## **Full convergence Image (1024 samples)**
-![image](out/original/classroom/jpg/classroom_1080_1024.jpg) 
-
-<hr /> 
-
-## **Noisy Image (64 samples)**
-![image](out/original/classroom/jpg/classroom_1080_16.jpg) 
-
-## **Intel® Open Image Denoise (64 samples)**
-![image](out/denoised/intel/classroom/classroom_1080_16_denoised.png)
-
-## **Non-Local Means Denoiser (64 samples)**
-![image](out/denoised/nlmean/classroom/classroom_1080_16_denoised.jpg)
-
-## **Full convergence Image (1024 samples)**
-![image](out/original/classroom/jpg/classroom_1080_1024.jpg) 
-
-<hr /> 
-
-## **Noisy Image (16 samples)**
-![image](out/original/classroom/jpg/classroom_1080_16.jpg) 
-
-## **Intel® Open Image Denoise (16 samples)**
-![image](out/denoised/intel/classroom/classroom_1080_16_denoised.png)
-
-## **Non-Local Means Denoiser (16 samples)**
-![image](out/denoised/nlmean/classroom/classroom_1080_16_denoised.jpg)
-
-## **Full convergence Image (1024 samples)**
-![image](out/original/classroom/jpg/classroom_1080_1024.jpg) 
-
-<hr /> 
-
-## **Noisy Image (8 samples)**
-![image](out/original/classroom/jpg/classroom_1080_8.jpg) 
-
-## **Intel® Open Image Denoise (8 samples)**
-![image](out/denoised/intel/classroom/classroom_1080_8_denoised.png)
-
-## **Non-Local Means Denoiser (8 samples)**
-![image](out/denoised/nlmean/classroom/classroom_1080_8_denoised.jpg)
-
-## **Full convergence Image (1024 samples)**
-![image](out/original/classroom/jpg/classroom_1080_1024.jpg) 
-
-<hr /> 
-
-## **Noisy Image (4 samples)**
-![image](out/original/classroom/jpg/classroom_1080_4.jpg) 
-
-## **Intel® Open Image Denoise (4 samples)**
-![image](out/denoised/intel/classroom/classroom_1080_4_denoised.png)
-
-## **Non-Local Means Denoiser (4 samples)**
-![image](out/denoised/nlmean/classroom/classroom_1080_4_denoised.jpg)
-
-## **Full convergence Image (1024 samples)**
-![image](out/original/classroom/jpg/classroom_1080_1024.jpg) 
 
 <hr /> 
 
