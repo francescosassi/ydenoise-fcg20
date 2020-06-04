@@ -415,7 +415,9 @@ Since this algorithm can be computationally demanding, I implemented it in paral
 <li>Fourth image -&gt; Full convergence Image</li>
 </ul>
 <p>and this pattern is repeated for all the different samples the scenes where tested on.</p>
+<p>The parameter I used to generate the original and the denoised images are inside the <code>scripts<code> folder in the files <code>generate_iamges.sh<code>,  <code>intel.sh<code> and <code>nlmean.sh<code></p>
 <h1 id="landscape"><strong>Landscape</strong></h1>
+<p>For the images with 256 and 128 samples, the Intel® Open Image Denoise is able to preserve the details of the trees in the background, but the grass seems a bit too omogeneos. The Non-Local Means Denoiser removes some of the details of the trees in the background, keeps more details of the grass in some zones, but creates some large patches of omogeneous color, in zones where the variance between the noise and the surrounding is low.</p>
 <h2 id="noisy-image-256-samples"><strong>Noisy Image (256 samples)</strong></h2>
 <p><img src="out/original/landscape/jpg/landscape_1080_256.jpg" alt="image"></p>
 <h2 id="intel%C2%AE-open-image-denoise-256-samples"><strong>Intel® Open Image Denoise (256 samples)</strong></h2>
@@ -686,8 +688,13 @@ Since this algorithm can be computationally demanding, I implemented it in paral
 <h2 id="full-convergence-image-1024-samples"><strong>Full convergence Image (1024 samples)</strong></h2>
 <p><img src="out/original/head/jpg/05_head1ss_1080_1024.jpg" alt="image"></p>
 <h1 id="conclusion"><strong>Conclusion</strong></h1>
-<p>The main problem for the Non-Local Means Denoiser are large patches of noise. If there are large zones of noise it is needed to increase the size of the research windows because it can be difficult to find pixels that are similar to the right color of the image. THis can slow down the algorithm a lot. Moreover, another problema is when the color of the noise is too far away from the color of the background. One of the assumption of the algorithm is that the noise is generated with a gaussian distribution of paramter sigma. If the noise is too far away from the actual color of the image it is needed to increase the parameter sigma, that can lead to blurring in some zones of the image.
-The performances for the Intel® Open Image Denoiser are impressive, and it is able to reconstruct the image even from low samples. With images with low noise it tends to blur some parts a there is a loss of some details (mainly sharpness).</p>
+<p>The main problem for the Non-Local Means Denoiser are</p>
+<ul>
+<li>large patches of noise. If there are large zones of noise it is needed to increase the size of the research windows because it can be difficult to find pixels that are similar to the right color of the image. THis can slow down the algorithm a lot. Moreover, another problema is when</li>
+<li>the color of the noise is too far away from the color of the background. One of the assumption of the algorithm is that the noise is generated with a gaussian distribution of paramter sigma. If the noise is too far away from the actual color of the image it is needed to increase the parameter sigma, that can lead to blurring in some zones of the image.
+*The parameters require fine tuning and the best set of paramters vary a lot between different scenes. This is a manual step that requires a lot of human time.</li>
+</ul>
+<p>The performances for the Intel® Open Image Denoiser are impressive with low noise images, and it is even able to reconstruct the images even from low samples. The downside is that sometime it tends to blur some parts and there is a loss of some details (sometime things look less sharp).</p>
 <h1 id="considerations-on-performances"><strong>Considerations on performances</strong></h1>
 <p>The tests where run on an intel i7-6700HQ.
 The Intel® Open Image Denoise is blazing fast.  It takes at maximum 2 seconds To denoise an image.

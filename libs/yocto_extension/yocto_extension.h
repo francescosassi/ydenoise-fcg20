@@ -55,7 +55,7 @@ namespace yocto::extension {
     void denoise(float* color, float* albedo, float* normal, float* output, int width, int heigh);
 
     img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img, int r, int f, float sigma, float h);
-    img::image<vec4f> denoise_nlmean_patch(const img::image<vec4f>& img, int r, int f, float sigma, float h);
+    
 }
 
 #endif

@@ -53,12 +53,7 @@ int main(int argc, const char* argv[]) {
     if (!load_image(in_file, img, ioerror)) cli::print_fatal(ioerror);
 
 
-    // corrections
-    printf("%d\n", r);
-    printf("%d\n", f);
-    printf("%f\n", sigma);
-    printf("%f\n", h);
-    img = dns::denoise_nlmean_patch(img, r, f, sigma, h);
+    img = dns::denoise_nlmean(img, r, f, sigma, h);
 
     // save
     if (!save_image(out_file, img, ioerror))
@@ -70,8 +65,6 @@ int main(int argc, const char* argv[]) {
 
     const int width  = buffer.getWidth();
     const int height = buffer.getHeight();
-
-    printf("%d %d\n", width, height);
 
     oidn::ImageBuffer output(width, height, 3);
 
@@ -102,12 +95,6 @@ int main(int argc, const char* argv[]) {
     else {
       dns::denoise(buffer.getData(), nullptr, nullptr, output.getData(), width, height);
     }
-    //auto normal = oidn::loadImage(normal_file);
-    //printf("ciao\n");
-
-    printf("%p \n", buffer.getData());
-    printf("%p \n", output.getData());
-    //output.getData();
 
     oidn::saveImage(out_file, output);
   }

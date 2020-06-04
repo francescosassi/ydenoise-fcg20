@@ -59,6 +59,7 @@ namespace yocto::extension {
     for (auto& f : futures) f.get();
     }
 
+
     img::image<vec4f> denoise_nlmean(const img::image<vec4f>& img, int r, int f, float sigma, float h){
 
         auto out = img::image<vec4f>(img.size());
@@ -69,7 +70,6 @@ namespace yocto::extension {
         auto i = ij.x;
         auto j = ij.y;
         auto p = img[{i, j}];
-        //printf("%f %f %f\n", p.x, p.y, p.z);
         auto c = 0.0f;
         auto acc = vec4f{0, 0, 0, 0};
         //iterate in the neigh of size (2* r x 2 * r)
@@ -78,69 +78,6 @@ namespace yocto::extension {
             for(int ry = -r; ry < r; ry++){
                 auto qx = i + rx;
                 auto qy = j + ry;
-                //if(qx == i && qy == j) continue;
-                if (!img.contains({qx, qy})) continue;
-                auto q = img[{i + rx, j + ry}];
-
-                auto tot = vec4f{0, 0, 0, 0};
-                // iterate in the neigh of size (2* f x 2 * f)
-                // centered in p and q
-
-                for(int fx = -f; fx < f; fx++){
-                    for(int fy = -f; fy < f; fy++){
-                        if (!img.contains({qx + fx,  qy + fy})) continue;
-                        if (!img.contains({i + fx,  j + fy})) continue;
-                        auto qf = img[{qx + fx, qy + fy}];
-                        auto pf = img[{i + fx, j + fy}];
-                        //printf("1 %f %f %f\n",qf.x, qf.y, qf.z);
-                        //printf("2 %f %f %f\n",pf.x, pf.y, pf.z);
-                        tot += pow((pf - qf) * 255, 2);
-                        //printf("2 %f %f %f\n",tot.x, tot.y, tot.z);
-                        //
-                    }
-                }
-                
-                //auto d_tot = tot.x + tot.y + tot.z;
-                //printf("tpt: %f\n", tot);
-                auto dist = sum(tot) / (3.0f * pow(2.0f * f, 2));
-                //printf("%f\n", dist);
-                auto w = exp(-max(dist - 2 * pow(sigma, 2), 0.0f) / pow(h, 2));
-                //printf("%f\n", w);
-                //printf("%f", w);
-                c += w;
-                acc += q * w;
-            }
-
-        }
-        acc/=c;
-        //printf("%f %f %f\n", acc.x, acc.y, acc.z);
-        out[{i, j}] = acc;
-        //out[{i, j}] = pow(acc, (1/2.2f));
-        });
-
-        return out;
-    }
-
-    img::image<vec4f> denoise_nlmean_patch(const img::image<vec4f>& img, int r, int f, float sigma, float h){
-
-        auto out = img::image<vec4f>(img.size());
-        parallel_for(img.size(), [&out, img, r, f, sigma, h](const vec2i& ij) {
-
-        auto width = img.size().x;
-        auto height = img.size().y;
-        auto i = ij.x;
-        auto j = ij.y;
-        auto p = img[{i, j}];
-        //printf("%f %f %f\n", p.x, p.y, p.z);
-        auto c = 0.0f;
-        auto acc = vec4f{0, 0, 0, 0};
-        //iterate in the neigh of size (2* r x 2 * r)
-        
-        for(int rx = -r; rx < r; rx++){
-            for(int ry = -r; ry < r; ry++){
-                auto qx = i + rx;
-                auto qy = j + ry;
-                //if(qx == i && qy == j) continue;
                 if (!img.contains({qx, qy})) continue;
                 auto q = img[{i + rx, j + ry}];
 
@@ -154,29 +91,17 @@ namespace yocto::extension {
                         if (!img.contains({i + fx,  j + fy})) continue;
                         auto qf = img[{qx + fx, qy + fy}] * 255;
                         auto pf = img[{i + fx, j + fy}] * 255;
-                        //printf("1 %f %f %f\n",qf.x, qf.y, qf.z);
-                        //printf("2 %f %f %f\n",pf.x, pf.y, pf.z);
                         tot += (pf - qf) * (pf - qf);
-                        //printf("2 %f %f %f\n",tot.x, tot.y, tot.z);
-                        //
                     }
                 }
-                
-                //auto d_tot = tot.x + tot.y + tot.z;
-                //printf("tpt: %f\n", tot);
                 auto dist = sum(tot) / (3.0f *  (2 * f + 1) * (2 * f + 1));
-                //printf("%f\n", dist);
                 auto w = exp(-max(dist - 2 * (sigma * sigma), 0.0f) / (h * h));
-                //printf("%f\n", w);
-                //printf("%f", w);
                 c += w;
                 acc += q * w;
             }
 
         }
-        //printf("%f\n", c);
         acc/=c;
-        //printf("%f %f %f\n", acc.x, acc.y, acc.z);
         out[{i, j}] = acc;
         });
 
